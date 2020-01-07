@@ -1,0 +1,34 @@
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+      //思路：遍历，每读到一个新的字符就判断HashMap里有没有相同的KEY，//有滑动窗口的思想，但是滑动距离太大，容易丢失一些信息-------optimize by SJH
+        //   如果已经有就清空HashMap,没有就继续添加
+     //  int pre = 0,beh = 0 ,length = 0;  //初始化最长子串的起止位置
+        Map<Character,Integer>[] hash = new HashMap [10];    //使用一个map，取代map数组，用标记标识边界------------------optimize by SJH
+        hash[0] = new HashMap<>();
+        int num=0;//字串的个数
+        int length = 0;
+        //怎么遍历String？把String 存到Char数组；              //遍历一个String：通过object.charAt(index)---------------optimize  by SJH
+        char[] args= s.toCharArray();
+
+        for(int i = 0;i < s.length();i++){
+            if( hash[num].containsKey(args[i])){                //取最大值，可以用Math.max(a,b)函数取代三目运算符-------optimize  by SJH
+                length = length>hash[num].size()?length:hash[num].size();   
+                hash[++num] = new HashMap<>();
+                hash[num].put(args[i],i);
+            //    pre = i;
+            //    beh = i;
+            }else{
+                hash[num].put(args[i],i);
+              //  beh++;
+            }
+            if(i == s.length()-1){           //特殊情况需要注意：string = ""，直接返回0；------------------------------optimize  by SJH
+                hash[num].put('/',i+1);     //string = "  "可以通过滑动窗口计算---------------------------------------optimize  by SJH
+            }
+           
+        }
+       // length = beh - pre;
+       // return length ;
+       
+        return length;
+    }
+}
