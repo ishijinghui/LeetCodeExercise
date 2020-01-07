@@ -1,0 +1,47 @@
+给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。
+
+如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。
+
+您可以假设除了数字 0 之外，这两个数都不会以 0 开头。
+
+示例：
+
+输入：(2 -> 4 -> 3) + (5 -> 6 -> 4)
+输出：7 -> 0 -> 8
+原因：342 + 465 = 807
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {        
+        //考虑特殊情况：1.有一个链表为空    2.一个链表比另一个链表长    3.最高位还需要进位
+        //初始化
+        int i=0,j=0;  //标识运算节点的数字
+        ListNode p =l1, q=l2;   //当前运算节点
+        int carry =0;   //进位符0，1
+        ListNode result = new ListNode(0);
+        ListNode current = result;
+        //开始运算
+        while(p!=null || q!=null){
+            i=(p==null)?0:p.val;    //当前节点为空，数值为0；
+            j=(q==null)?0:q.val;
+            int sum =i + j + carry;
+            carry = sum/10;
+            current.next=new ListNode(sum % 10);
+            current=current.next;
+            p=(p==null)?null:p.next;  //链表遍历的边界问题，由于循环的条件为两者不同时为空时进行，那么若有一个先为空则不能继续往下读，应该保持null;
+            q=(q==null)?null:q.next;
+        }
+        //判断最高位需不需要进位
+        if(carry == 1){
+            current.next =new ListNode(carry);
+        }
+        return result.next;
+    }
+}
