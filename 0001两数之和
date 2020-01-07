@@ -1,0 +1,25 @@
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+    
+        //暴力求解，时间复杂度O(N^2),空间复杂度O(1)  运行时间 28ms ，内存消耗38.4
+        // for(int i=0;i<nums.length;i++){
+        //     for(int j=i+1;j<nums.length;j++){
+        //         if(nums[j]==target-nums[i]){
+        //             return new int[] {i,j};
+        //         }
+        //     }
+        // }
+        // throw new IllegalArgumentException("No Two Sum Solution!");
+        
+        //利用HashMap 时间复杂度O(N),空间复杂度O(N)；运行时间 3ms  ，内存消耗37.4
+        Map<Integer,Integer> hash = new HashMap<>();
+        for(int i= 0;i < nums.length;i++){
+            int complement = target - nums[i];
+            if(hash.containsKey(complement)){
+                return new int[]{i,hash.get(complement)};
+            }
+            hash.put(nums[i],i);
+        }
+        throw new IllegalArgumentException("No Two Sum Solution!");
+    }
+}
