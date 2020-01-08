@@ -1,10 +1,10 @@
 import java.io.*;
 class Solution {
     public int myAtoi(String str) {
-        if(str ==null) return 0;
+        if(str ==null) return 0;          //还有一种情况没有排除 str=="" ------------------------------------------comment  by SJH
         //找到第一个非空字符
         int first = getFirstChar(str);
-        if (first == -1) return 0;
+        if (first == -1) return 0;           //这步判断可以优化
 
         int begin = -1;
         if(str.charAt(first)=='-'||str.charAt(first)=='+'){
@@ -15,7 +15,7 @@ class Solution {
 
         //找出数字部分
         int index = begin;
-        while(Character.isDigit(str.charAt(index))){
+        while(Character.isDigit(str.charAt(index))){          //可以结合到下面的for循环中----------------------------comment by SJH
             if((index==str.length()-1)) break;
             index++;
         }
@@ -23,7 +23,7 @@ class Solution {
         if(end-begin == 0) return str.charAt(begin);
         int number=0;
         int weight = 0;
-        for(int i=end ;i>=begin;i--){
+        for(int i=end ;i>=begin;i--){                   //这步循环得到的计算结果不对，可以采用顺序遍历的计算方法---------comment  by SJH
             int  bias = str.charAt(i);
             System.out.println( bias);
             int args = 1;
@@ -35,7 +35,7 @@ class Solution {
             number = number + args*bias;
             weight++;
         }
-        //判断大小
+        //判断大小                            //上文有重复的判断，可以设置一个sign，使得代码更加简洁，可读性更强--------- -comment  by SJH
         if(str.charAt(first)=='-'&&number>Integer.MIN_VALUE){
             return Integer.MIN_VALUE ;
         }
@@ -63,7 +63,7 @@ class Solution {
     //     return (i>=0)?i:-1;
     // }
 
-    public int getFirstChar(String str){
+    public int getFirstChar(String str){                   //可以用str.trim（）去掉开头和结尾的空格------------------comment  by SJH
         int i=0;
         while(str.charAt(i)==' '){
             i++;
@@ -74,4 +74,63 @@ class Solution {
     // public boolean isNum(Character a){
     //     return Character.isDigit(a);
     // }
+}
+
+//方法二：正则表达式
+//用时：14ms
+// import java.util.regex.*;
+// class Solution {
+//     public int myAtoi(String str) {
+//         //清空字符串开头和末尾空格（这是trim方法功能，事实上我们只需清空开头空格）
+//         str = str.trim();
+//         //java正则表达式
+//         Pattern p = Pattern.compile("^[\\+\\-]?\\d+");
+//         Matcher m = p.matcher(str);
+//         int value = 0;
+//         //判断是否能匹配
+//         if (m.find()){
+//             //字符串转整数，溢出
+//             try {
+//                 value = Integer.parseInt(str.substring(m.start(), m.end()));
+//             } catch (Exception e){
+//                 //由于有的字符串"42"没有正号，所以我们判断'-'
+//                 value = str.charAt(0) == '-' ? Integer.MIN_VALUE: Integer.MAX_VALUE;
+//             }
+//         }
+//         return value;
+//     }
+// }
+
+//方法三：Java非正则表达式法                               trim（）去掉开头和末尾的空格，十进制权重计算法
+//2ms
+class Solution {
+    public int myAtoi(String str) {
+        str = str.trim();                           //trim（）去掉开头和末尾的空格-----------------------------------comment  by SJH
+        if (str == null || str.length() == 0)      //排除了str==null，以及str==""的情况。---------------------------comment  by SJH
+            return 0;
+
+        char firstChar = str.charAt(0);
+        int sign = 1;
+        int start = 0;
+        long res = 0;
+        if (firstChar == '+') {
+            sign = 1;
+            start++;
+        } else if (firstChar == '-') {
+            sign = -1;
+            start++;
+        }
+
+        for (int i = start; i < str.length(); i++) {
+            if (!Character.isDigit(str.charAt(i))) {        //巧妙地排除了所有不是数字的情况，避免大量if判断-----------comment  by SJH
+                return (int) res * sign;                   //高位向低位赋值要用强制类型转换--------------------------comment  by SJH
+            }
+            res = res * 10 + str.charAt(i) - '0';           //十进制权重计算法，从高位到低位遍历
+            if (sign == 1 && res > Integer.MAX_VALUE)
+                return Integer.MAX_VALUE;
+            if (sign == -1 && res > Integer.MAX_VALUE)
+                return Integer.MIN_VALUE;
+        }
+        return (int) res * sign;
+    }
 }
