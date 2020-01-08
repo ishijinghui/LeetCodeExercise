@@ -1,0 +1,77 @@
+import java.io.*;
+class Solution {
+    public int myAtoi(String str) {
+        if(str ==null) return 0;
+        //找到第一个非空字符
+        int first = getFirstChar(str);
+        if (first == -1) return 0;
+
+        int begin = -1;
+        if(str.charAt(first)=='-'||str.charAt(first)=='+'){
+            begin=first+1;           
+        }else if(Character.isDigit(str.charAt(first))){
+            begin = first;
+        }else return 0;
+
+        //找出数字部分
+        int index = begin;
+        while(Character.isDigit(str.charAt(index))){
+            if((index==str.length()-1)) break;
+            index++;
+        }
+        int end =index;
+        if(end-begin == 0) return str.charAt(begin);
+        int number=0;
+        int weight = 0;
+        for(int i=end ;i>=begin;i--){
+            int  bias = str.charAt(i);
+            System.out.println( bias);
+            int args = 1;
+            int ans =weight;
+            while (ans!=0){
+                args *=10;
+                ans--;
+            }
+            number = number + args*bias;
+            weight++;
+        }
+        //判断大小
+        if(str.charAt(first)=='-'&&number>Integer.MIN_VALUE){
+            return Integer.MIN_VALUE ;
+        }
+        if(str.charAt(first)=='+'&&number>Integer.MAX_VALUE){
+            return Integer.MAX_VALUE ;
+        }
+       // int num = number;
+        return number;
+        // int last = getLastNum(str);
+        // int len = last-firstNum+1;
+        // if(len>0){   
+        //     for(int i=last int weight=1;i>=firstNum;i--){
+        //         int curret = str.charAt(i);
+        //         num = num + curren*(10^weight);
+        //         weight++;
+        //     }
+        // }else return 0;
+        
+    }
+    // public int getLastNum(String str){
+    //     int i=str.length()-1;
+    //     while(!Character.isDigit(str.charAt(i))){
+    //         i--;
+    //     }
+    //     return (i>=0)?i:-1;
+    // }
+
+    public int getFirstChar(String str){
+        int i=0;
+        while(str.charAt(i)==' '){
+            i++;
+            if(!(i<str.length())) return i-1;
+        }
+        return i;
+    }
+    // public boolean isNum(Character a){
+    //     return Character.isDigit(a);
+    // }
+}
