@@ -28,6 +28,7 @@ public class Solution {
     //利用算法，不借助额外的数据结构，时间复杂度O(N),空间复杂度O(1)
     //用时：1ms，内存：42.7M
     //算法：若相交，链表A： a+c, 链表B : b+c. a+c+b+c = b+c+a+c 。则会在公共处c起点相遇。若不相交，a +b = b+a 。因此相遇处是NULL
+    //分析时间差：用哈希表首先new对象就需要时间，其次每次哈希映射到对应的内存空间，哈希函数的计算也需要时间，虽然是O(1),但是肯定没有直接放这么快，数据规模一上去，时间的差距就稍微有点明显了，
     // public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
     // if (headA == null || headB == null) return null;
     // ListNode pA = headA, pB = headB;
