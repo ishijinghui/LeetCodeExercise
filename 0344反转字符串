@@ -1,0 +1,61 @@
+class Solution {
+    // public void reverseString(char[] s) {
+    //     int pre = 0,behi = s.length-1;
+    //     while(pre != behi && pre +1 != behi){
+    //        s= exchangeValueOfIndex(i,j,s);
+    //     }
+
+    // }
+    // public char[] exchangeValueOfIndex(int indexA ,int indexB ,char[] s){
+    //     char ch = s[indexA];
+    //     s[indexA] = s[indexB];
+    //     s[indexB] = ch;
+    //     return s;
+    // }
+    //递归
+    //用时：2ms,空间：52.2M
+    //  public void reverseString(char[] s) {
+    //     swap(0, s.length-1, s);
+    // }
+    
+    // public void swap(int start, int end, char[] s) {
+    //     if(start >= end){
+    //         return;
+    //     }
+        
+    //     char temp = s[start];
+    //     s[start] = s[end];
+    //     s[end] = temp;
+    //     swap(start+1, end-1, s);
+    // }
+
+    //双指针
+    //时间:1ms,空间51.9M
+    // public void reverseString(char[] s) {
+    //     if (s == null || s.length < 2) {
+    //         return;
+    //     }
+    //     int left = -1;
+    //     int right = s.length;
+    //     while (++left < --right) {
+    //         char c = s[left];
+    //         s[left] = s[right];
+    //         s[right] = c;
+    //     }
+
+    //     return;
+    // }
+
+    //异或实现交换
+    //时间：2ms,空间：52.2M
+    public void reverseString(char[] s) {
+        int end = s.length;
+        for (int i = -1; ++i <--end;) {
+            s[i] ^= s[end];
+            s[end] ^= s[i];
+            s[i] ^= s[end];
+        }
+    }
+
+
+}
