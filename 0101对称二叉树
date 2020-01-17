@@ -1,0 +1,58 @@
+//层次遍历BFS + 判断回文数法
+//致命缺陷：当某一层的左右子树有一颗为空，就无法判断是否镜像堆成
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        Queue<TreeNode> queue =new LinkedList<>();
+        queue.add(root);
+        while(!queue.isEmpty()||queue.removeAll(null)){
+            for(int i=0;i<queue.size();i++){
+                TreeNode node  = queue.poll();
+                if(node.left!=null) queue.add(node.left);   //不存空节点，无法判断镜像，存了空节点，循环无法停止
+                if(node.left!=null) queue.add(node.right);
+            }
+            TreeNode[] arr = queue.toArray(new TreeNode[queue.size()]);  
+            int i = -1,j=arr.length;
+            while(++i <= --j){
+                if((arr[i]==null && arr[j]==null)||arr[i].val ==arr[j].val ){}
+                else return false;
+            }
+        }
+        return true;
+    }
+}
+//优化后的迭代 时间：0ms,空间：34m
+public boolean isSymmetric(TreeNode root) {
+    if(root==null) return true;
+    return isMirror(root.left, root.right);
+    //return isMirror(root, root);     //优化，否则既难以理解，也会多一倍重复计算
+}
+
+public boolean isMirror(TreeNode t1, TreeNode t2) {
+    if (t1 == null && t2 == null) return true;
+    if (t1 == null || t2 == null) return false;
+    return (t1.val == t2.val)
+        && isMirror(t1.right, t2.left)
+        && isMirror(t1.left, t2.right);
+}
+
+//循环  时间：1ms 空间：37m
+public boolean isSymmetric(TreeNode root) {
+    Queue<TreeNode> q = new LinkedList<>();
+    q.add(root);
+    q.add(root);
+    while (!q.isEmpty()) {
+        TreeNode t1 = q.poll();
+        TreeNode t2 = q.poll();
+        if (t1 == null && t2 == null) continue;
+        if (t1 == null || t2 == null) return false;
+        if (t1.val != t2.val) return false;
+        q.add(t1.left);
+        q.add(t2.right);
+        q.add(t1.right);
+        q.add(t2.left);
+    }
+    return true;
+}
+
+
+
