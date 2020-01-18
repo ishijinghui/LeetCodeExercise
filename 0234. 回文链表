@@ -16,7 +16,7 @@ class Solution {
     	while(fast != null && fast.next != null) {//不确定链表长度为奇数或者偶数的二分条件
     		//反转前半段链表
     		pre = slow;
-    		slow = slow.next;
+    		slow = slow.next;       //如果先反转，在移动指针会报错
     		fast = fast.next.next;
     		//先移动指针再来反转
     		pre.next = prepre;
