@@ -24,12 +24,14 @@ public class Solution {
     
     //利用快慢指针
     //时间：0ms，空间：37.8M
+    //快慢指针的两个判断条件 ： return 
+    // if(fast == null || fast.next == null) return ;
     public boolean hasCycle(ListNode head) {
-        if(head ==null || head.next == null) return false;
+        if(head ==null || head.next == null) return false;    //类似于str==null || str.length（）<2 
         ListNode fast = head.next;
         ListNode slow = head;
         while(fast!=slow){
-            if(fast == null || fast.next == null) return false;
+            if(fast == null || fast.next == null) return false; if(head ==null || head.next == null)//跨两步走可能停在最后一个节点，或者最后节点的后面null上，再往下就出错了
             fast = fast.next.next;
             slow = slow.next; 
         }
