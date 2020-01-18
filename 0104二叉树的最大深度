@@ -1,0 +1,14 @@
+//递归 时间：1ms ，空间36m
+class Solution {
+    public int maxDepth(TreeNode root) {
+       return getDeep(root,0);
+    }
+    public int getDeep(TreeNode root,int height){
+        if(root == null) return height;
+        else{
+            int left = getDeep(root.left,height+1);
+            int right = getDeep(root.right,height+1);
+            return  right>left?right:left;
+        } 
+    }
+}
