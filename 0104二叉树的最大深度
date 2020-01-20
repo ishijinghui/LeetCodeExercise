@@ -4,11 +4,11 @@ class Solution {
        return getDeep(root,0);
     }
     public int getDeep(TreeNode root,int height){
-        if(root == null) return height;
+        if(root == null) return height;     //迭代开始条件，也是终止条件， return height是迭代开始的赋值语句
         else{
             int left = getDeep(root.left,height+1);
             int right = getDeep(root.right,height+1);
-            return  right>left?right:left;
+            return  right>left?right:left;   //最终返回值是这个
         } 
     }
 }
