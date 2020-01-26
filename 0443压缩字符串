@@ -1,0 +1,18 @@
+class Solution {
+//三指针，anchor：存放不一样的字符，read：遍历字符串数组，write：写指针
+    public int compress(char[] chars) {
+        int anchor = 0, write = 0;
+        for (int read = 0; read < chars.length; read++) {         //遍历
+            if (read + 1 == chars.length || chars[read + 1] != chars[read]) {       //相邻字符串比较
+                chars[write++] = chars[anchor];       //
+                if (read > anchor) {
+                    for (char c: ("" + (read - anchor + 1)).toCharArray()) {
+                        chars[write++] = c;
+                    }
+                }
+                anchor = read + 1;
+            }
+        }
+        return write;
+    }
+}
