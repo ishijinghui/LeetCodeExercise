@@ -8,7 +8,7 @@ public boolean repeatedSubstringPattern(String s) {
         String str = s + s;
         return str.substring(1,str.length()-1).contains(s);
 	}
-  方法二：暴力求解法，用时154ms,击败了11.51% 
+  方法二：暴力求解法，用时134ms,击败了11.51% 
   public boolean repeatedSubstringPattern(String s) {
         // if(s==null||s.length()<2) return false;       
         // for(int i=0;i<(s.length()/2);i++){
@@ -18,4 +18,7 @@ public boolean repeatedSubstringPattern(String s) {
         // return false;
         
     }
-
+方法三：正则表达式。用时：50ms，击败了37.30%
+public boolean repeatedSubstringPattern(String s) {
+          return Pattern.matches("^(\\w+)\\1+$", s);
+    }
